@@ -19,7 +19,7 @@ while [ $# -ge 1 ]; do
 	#if the file is a link use the actual rm program to kill it
 	if [ -L $murder ]; then
 		/bin/rm $murder
-		return 0	
+		return 0
 	fi
 	echo "line 18 murder=$murder"
   	#get the full path of the file or folder I want dead
@@ -29,12 +29,12 @@ while [ $# -ge 1 ]; do
   	if [[ $murder =~ (.*)\/$ ]];then
 		murder=${BASH_REMATCH[1]}
 		slash='/'
-		oPath="$oPath$slash"
+		oPath="$oPath"
   	fi
 	echo "line 27 oPath=$oPath"
   	#move the file to the ubuntu trash bin (could be natulus the file manager)
-  	echo "mv $oPath ~/.local/share/Trash/files/" 
+  	echo "mv $oPath ~/.local/share/Trash/files" | bash
   	#create an entry in said trashbin
-  	#echo -e "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" >> ~/.local/share/Trash/info/$murder.trashinfo
+  	echo -e "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" >> ~/.local/share/Trash/info/$murder.trashinfo
 	shift
 done
