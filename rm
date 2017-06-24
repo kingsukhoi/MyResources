@@ -1,0 +1,29 @@
+#!/bin/bash
+#drop all options I passed to it like -rf and get the actual file or directory
+if [[ $1 =~ ^- ]]; then
+	murder=$2
+else
+	murder=$1
+fi
+
+#rm -rf / protection
+if [[ $murder =~ ^\/$ ]]; then 
+	echo -e "I don't know who you are, but you tried to kill my baby
+	\nI advise you leave now because if you continue down this path
+	\nI promise you this your actions will come back to haunt you
+	\nand when they do, no one will be able to help you		
+	"
+	return 1
+fi
+#get the full path of the file or folder I want dead
+oPath=$(readlink -f $murder)
+#drop the / if it's a directory 
+if [[ $murder =~ (.*)\/$ ]];then
+	murder=${BASH_REMATCH[1]}
+	oPath="$oPath/"
+fi
+#move the file to the ubuntu trash bin (could be natulus the file manager)
+mv $oPath ~/.local/share/Trash/files/
+#create an entry in said trashbin
+echo -e "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" >> ~/.local/share/Trash/info/$murder.trashinfo
+
