@@ -1,0 +1,65 @@
+
+##phil's terminal mod start
+
+
+#default prompt
+#PS1="[\u@\H \w> "
+PS2="    >"
+
+ifJobs() {
+    local stopped=$(jobs -sp | wc -l)
+    local running=$(jobs -rp | wc -l)
+    total=$((stopped + running))
+    if [ "$total" -ne 0 ];then #running or stopped has one or more jobs
+        echo
+        jobs -l
+    fi
+}
+
+happy(){
+    if [ $1 -eq 0 ];then  ##success
+        echo -ne '\e[0;32m'
+        echo -ne '(Ծ‸ Ծ)'
+        echo -ne '\e[0;1;30m'
+    elif [ $1 -eq 2 ];then  ##gtest fail?
+        echo -ne '\e[0;36m'
+        echo -ne 'щ(ಥДಥ щ)'
+        echo -ne '\e[0;1;30m'
+    elif [ $1 -eq 127 ] || [ $1 -eq 130 ];then ##not found, or user terminated
+        echo -ne '\e[0;33m'
+        echo -ne '¯\(ºдಠ)/¯'
+        echo -ne '\e[0;1;30m'
+    elif [ $1 -eq 148 ];then  ##suspend
+        echo -ne '\e[0;35m'
+        echo -ne '（￣へ￣）'
+        echo -ne '\e[0;1;30m'
+    else  ##all else, error?
+        echo -ne '\e[0;31m'
+        echo -ne 'ﾉ(`Д`)ﾉ彡'
+        echo -ne '\e[0;1;30m'
+    fi
+}
+
+set_bash_prompt(){
+#BullTerminal is just the name of the window
+#happy
+#PS1='\[\e]2;BullTerminal\a\]n\e[0;1;30m\]╔═ $(happy $commOutput) ═╣ \w ╠══$(ifJobs)\n╚═➤\[\e[0m\] '
+    
+    commOutput=`echo $?`
+    #$(happy $commOutput)
+
+    #if [ "$TERM" == "konsole" ]; then
+         PS1="\[\e]2;BullTerminal\a\]\[\033[0m\]\u> "
+    #else
+        if [ $commOutput -ne 0 ] && [ $commOutput -ne 127 ] && [ $commOutput -ne 130 ] && [ $commOutput -ne 148 ] && [ $commOutput -ne 2 ];then
+            PS1='\[\e]2;BullTerminal\a\]\[\033[0;1;30m\]            ═╩═\n╔═ $(happy $commOutput) \w ╠══$(ifJobs)\n╚═➤\[\e[0m\] '
+        else
+            PS1='\[\e]2;BullTerminal\a\]\n\[\033[0;1;30m\]╔═ $(happy $commOutput) ═╣ \w ╠══$(ifJobs)\n╚═➤\[\e[0m\] '
+        fi
+    #fi
+}
+#
+PROMPT_COMMAND=set_bash_prompt
+#
+#
+##phil's terminal mod end
