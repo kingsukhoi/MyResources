@@ -21,15 +21,22 @@ while [ $# -ge 1 ]; do
 	fi
   	#get the full path of the file or folder I want dead
  	oPath=$(readlink -f $murder)
-  	#drop the / if it's a directoryg
+  	#drop the / if it's a directory
   	if [[ $murder =~ (.*)\/$ ]];then
 		murder=${BASH_REMATCH[1]}
 		slash='/'
 		oPath="$oPath"
  	fi
  	#move the file to the ubuntu trash bin (could be natulus the file manager)
- 	echo "mv $oPath ~/.local/share/Trash/files" | bash
+ 	err=1
+	while [ $err -gt 0 ]; do
+		echo "mv $oPath ~/.local/share/Trash/files" | bash &> /dev/null
+		err=$?
+		if [ $err -gt 0 ]; then 
+			/bin/rm -rf ~/.local/share/Trash/files/$murder
+		fi
+	done
  	#create an entry in said trashbin
-  	echo -e "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" >> ~/.local/share/Trash/info/$murder.trashinfo
+  	echo -e "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" > ~/.local/share/Trash/info/$murder.trashinfo
 	shift
 done
