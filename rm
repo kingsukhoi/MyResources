@@ -7,11 +7,11 @@ while [ $# -ge 1 ]; do
 	murder=$1
 	if [[ $murder =~ ^\/$ ]]; then
 	echo -e "
-		I don't know who you are, but you tried to kill my baby
-		\nI advise you leave now because if you continue down this path
-		\nI promise you this your actions will come back to haunt you
-	 	\nand when they do, no one will be able to help you
- 		"
+	I don't know who you are, but you tried to kill my baby
+	I advise you leave now because if you continue down this path
+	Your actions will come back to haunt you
+	and when they do, no one will be able to help you
+	"
     	exit 1
   	fi
 	#if the file is a link use the actual rm program to kill it
