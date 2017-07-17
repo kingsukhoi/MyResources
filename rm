@@ -14,6 +14,11 @@ while [ $# -ge 1 ]; do
 	"
     	exit 1
   	fi
+	#check if file exists
+	if ![ -e $murder ]; then 
+		echo "file no exist"
+		exit 1
+	fi
 	#if the file is a link use the actual rm program to kill it
 	if [ -L $murder ]; then
 		/bin/rm $murder
@@ -29,6 +34,8 @@ while [ $# -ge 1 ]; do
  	fi
  	#move the file to the ubuntu trash bin (could be natulus the file manager)
  	err=1
+	#check if file of the same name exists
+	#
 	while [ $err -gt 0 ]; do
 		echo "mv $oPath ~/.local/share/Trash/files" | bash &> /dev/null
 		err=$?
