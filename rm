@@ -14,15 +14,14 @@ while [ $# -ge 1 ]; do
 	"
     	exit 1
   	fi
-	#check if file exists
-	if [ ! -e $murder ]; then 
-		echo "file no exist"
-		exit 1
-	fi
 	#if the file is a link use the actual rm program to kill it
 	if [ -L $murder ]; then
 		/bin/rm $murder
-		exit 0
+		exit 0	
+	#check if file exists
+	elif [ ! -e $murder ]; then 
+		echo "file no exist"
+		exit 1
 	fi
   	#get the full path of the file or folder I want dead
  	oPath=$(readlink -f $murder)
