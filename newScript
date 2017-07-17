@@ -1,0 +1,7 @@
+#!/bin/bash
+
+name=$1
+
+touch $name
+chmod u+x $name
+vim $name
