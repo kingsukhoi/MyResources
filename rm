@@ -1,4 +1,5 @@
 #!/bin/bash
+set -u
 while [ $# -ge 1 ]; do
 	if [[ $1 =~ ^- ]]; then
 		shift
@@ -15,16 +16,16 @@ while [ $# -ge 1 ]; do
     	exit 1
   	fi
 	#if the file is a link use the actual rm program to kill it
-	if [ -L $murder ]; then
-		/bin/rm $murder
+	if [ -L "$murder" ]; then
+		/bin/rm "$murder"
 		exit 0	
 	#check if file exists
-	elif [ ! -e $murder ]; then 
+	elif [ ! -e "$murder" ]; then 
 		echo "file no exist"
 		exit 1
 	fi
   	#get the full path of the file or folder I want dead
- 	oPath=$(readlink -f $murder)
+ 	oPath=$(readlink -f "$murder")
   	#drop the / if it's a directory
   	if [[ $murder =~ (.*)\/$ ]];then
 		murder=${BASH_REMATCH[1]}
@@ -43,6 +44,6 @@ while [ $# -ge 1 ]; do
 		fi
 	done
  	#create an entry in said trashbin
-  	echo -e "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" > ~/.local/share/Trash/info/$murder.trashinfo
+  	echo -e "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" > ~/.local/share/Trash/info/"$murder".trashinfo
 	shift
 done
