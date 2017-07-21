@@ -1,4 +1,0 @@
-#!/bin/bash
-
-curl https://***REMOVED***
-#wget https://***REMOVED***@dynupdate.no-ip.com/nic/update?hostname=bullfreak.zapto.org&myip=`curl ifconfig.me`
