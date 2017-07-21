@@ -1,0 +1,17 @@
+#!/bin/bash
+
+in1=$1
+in2=$2
+
+if [ -f $in1 ];then
+	in1=`cat $in1`
+fi
+if [ -f $in2 ]; then
+	in2=`cat $in2`
+fi
+
+if [ "$in1" == "$in2" ];then
+	echo "It's the same"
+else
+	echo "It's different"
+fi
