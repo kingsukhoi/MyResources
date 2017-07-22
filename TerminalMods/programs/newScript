@@ -1,6 +1,6 @@
 #!/bin/bash
-
-name=$1
+set -e
+name="`pwd`/$1"
 
 touch $name
 chmod u+x $name
