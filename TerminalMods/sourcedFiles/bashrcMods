@@ -1,0 +1,21 @@
+###My Modfications Start
+##custom script dir start
+#export RESOURCEDIR="$HOME/resources"
+sourcedfiledir="$RESOURCEDIR/TerminalMods/sourcedFiles"
+##custom script dir end
+
+##phil's terminal mod start
+
+if [[ -f "$sourcedfiledir/philTerminalMod" ]];then 
+	source "$sourcedfiledir/philTerminalMod"
+fi
+##phil's terminal mod end
+
+##farsos directory movement start
+up (){
+if [[ -f "$sourcedfiledir/up" ]];then 
+	source "$sourcedfiledir/up"
+fi
+}
+##farsos directory movement end
+###My Modfications End
