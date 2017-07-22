@@ -1,26 +1,20 @@
 ###My Modfications Start
 ##custom script dir start
 export RESOURCEDIR="$HOME/resources"
-export PATHPROGDIR="$RESOURCEDIR/TerminalMods/programs"
+export SOURCEDPROGDIR="$RESOURCEDIR/TerminalMods/sourcedFiles"
 ##custom script dir end
 
 ##phil's terminal mod start
 
-if [[ -f "$RESOURCEDIR/TerminalMods/philTerminalMod" ]];then 
-	source "$RESOURCEDIR/TerminalMods/philTerminalMod"
+if [[ -f "$SOURCEDPROGDIR/philTerminalMod" ]];then 
+	source "$SOURCEDPROGDIR/philTerminalMod"
 fi
 ##phil's terminal mod end
 
-##Terminal Programs start
-#if [[ -d $PATHPROGDIR ]]; then
-#	ln -s $PATHPROGDIR/* "$HOME/.local/bin/" &> /dev/null
-#fi
-##Terminal Programs end
-
 ##farsos directory movement start
-function up {
-if [[ -f "$RESOURCEDIR/TerminalMods/up" ]];then 
-	source "$RESOURCEDIR/TerminalMods/up"
+up (){
+if [[ -f "$SOURCEDPROGDIR/up" ]];then 
+	source "$SOURCEDPROGDIR/up"
 fi
 }
 ##farsos directory movement end
