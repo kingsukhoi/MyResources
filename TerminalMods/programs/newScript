@@ -2,8 +2,18 @@
 set -ue
 name="`pwd`/$1"
 
+
+if [[ -f $name ]]; then
+
+	echo "file exists" >&2 
+	exit 1
+fi
+
+
 touch $name
 chmod u+x $name
 #in case a script of same name exists don't want to overwrite
 echo -e "#!/bin/bash\n">>$name
 vim $name
+#!/bin/bash
+
