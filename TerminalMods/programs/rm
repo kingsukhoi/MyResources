@@ -1,13 +1,13 @@
 #!/bin/bash
-set -u
+set -e
 while [ $# -ge 1 ]; do
-	if [[ $1 =~ ^- ]]; then
+	if [[ "$1" =~ ^- ]]; then
 		shift
 		continue
 	fi
-	murder=$1
+	murder="$1"
 	if [[ $murder =~ ^\/$ ]]; then
-	echo -e "
+	echo "
 	I don't know who you are, but you tried to kill my baby
 	I advise you leave now because if you continue down this path
 	Your actions will come back to haunt you
@@ -16,7 +16,7 @@ while [ $# -ge 1 ]; do
     	exit 1
   	fi
 	#if the file is a link use the actual rm program to kill it
-	if [ -L "$murder" ]; then
+	if [[ -L "$murder" ]]; then
 		/bin/rm "$murder"
 		exit 0	
 	#check if file exists
@@ -27,9 +27,9 @@ while [ $# -ge 1 ]; do
   	#get the full path of the file or folder I want dead
  	oPath=$(readlink -f "$murder")
   	#drop the / if it's a directory
-  	if [[ $murder =~ (.*)\/$ ]];then
+  	regex="(.*)\/$"
+	if [[ $murder =~ $regex  ]];then
 		murder=${BASH_REMATCH[1]}
-		slash='/'
 		oPath="$oPath"
  	fi
  	#move the file to the ubuntu trash bin (could be natulus the file manager)
@@ -37,13 +37,17 @@ while [ $# -ge 1 ]; do
 	#check if file of the same name exists
 	#
 	while [ $err -gt 0 ]; do
-		echo "mv $oPath ~/.local/share/Trash/files" | bash &> /dev/null
+		echo "mv $oPath $HOME/.local/share/Trash/files" | bash 
+		
 		err=$?
 		if [ $err -gt 0 ]; then 
-			/bin/rm -rf ~/.local/share/Trash/files/$murder
+			/bin/rm -rf "$HOME/.local/share/Trash/files/$murder"
 		fi
 	done
  	#create an entry in said trashbin
-  	echo -e "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" > ~/.local/share/Trash/info/"$murder".trashinfo
+	tinfoFile="$HOME/.local/share/Trash/info/$murder.trashinfo"
+	touch $tinfoFile
+
+  	echo -e -n "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" > "$tinfoFile" 
 	shift
 done
