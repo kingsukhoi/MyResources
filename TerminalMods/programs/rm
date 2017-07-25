@@ -15,14 +15,16 @@ while [ $# -ge 1 ]; do
 	"
     	exit 1
   	fi
+	#check if file exists
+	if [ ! -e "$murder" ]; then 
+		echo "$murder no exist"
+		shift
+	fi
 	#if the file is a link use the actual rm program to kill it
 	if [[ -L "$murder" ]]; then
 		/bin/rm "$murder"
+		shift
 		continue	
-	#check if file exists
-	elif [ ! -e "$murder" ]; then 
-		echo "$murder no exist"
-		
 	fi
   	#get the full path of the file or folder I want dead
  	oPath=$(readlink -f "$murder")
@@ -33,7 +35,6 @@ while [ $# -ge 1 ]; do
 		oPath="$oPath"
  	fi
  	#move the file to the ubuntu trash bin (could be natulus the file manager)
- 	err=1
 	#check if file of the same name exists
 	dest="$HOME/.local/share/Trash/files/$murder"	
 	
