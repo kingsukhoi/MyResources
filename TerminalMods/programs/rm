@@ -35,15 +35,13 @@ while [ $# -ge 1 ]; do
  	#move the file to the ubuntu trash bin (could be natulus the file manager)
  	err=1
 	#check if file of the same name exists
-	#
-	while [ $err -gt 0 ]; do
-		echo "mv $oPath $HOME/.local/share/Trash/files" | bash 
-		
-		err=$?
-		if [ $err -gt 0 ]; then 
-			/bin/rm -rf "$HOME/.local/share/Trash/files/$murder"
-		fi
-	done
+	dest="$HOME/.local/share/Trash/files/$murder"	
+	
+	if [[ -e $dest ]]; then
+		/bin/rm -rf "$dest"
+	fi
+	mv "$oPath" "$dest" 
+	
  	#create an entry in said trashbin
 	tinfoFile="$HOME/.local/share/Trash/info/$murder.trashinfo"
 	touch $tinfoFile
