@@ -1,0 +1,8 @@
+#!/bin/bash
+set -ue
+
+while [[ `pidof "$1"` ]];do
+	sleep 5
+	continue
+done
+notify-send "$1 finished"
