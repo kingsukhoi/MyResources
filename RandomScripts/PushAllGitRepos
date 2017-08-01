@@ -1,0 +1,46 @@
+#!/bin/bash
+set -uex
+
+getPath(){
+	
+	regex="(.*)\.git$"
+
+	if [[ "$1" =~ $regex ]]; then
+		echo ${BASH_REMATCH[1]}
+	else
+		>&2 echo "error with $1" 
+	fi
+
+}
+
+
+pushGitRepos () {
+
+	while :; do
+	
+		gitPath=`getPath "$1"`
+		
+		cd "$gitPath"
+
+		gitoutput=`git remote show origin`
+		regex="***REMOVED***"
+		if [[ $gitoutput =~ $regex ]];then
+			`git commit -a -m \"backup commit\"` 
+		
+			`git push`
+		fi
+		shift		
+	done
+
+}
+
+whereami=`readlink -e "$1"`
+
+if [ ! -d $whereami ]; then
+	>&2 echo "$1 is either a file or dosen't exist"
+	exit 1
+fi
+
+dirlist=`find $whereami -type d -name .git 2> /dev/null | egrep  "(.*)\.git" | xargs`
+
+pushGitRepos $dirlist
