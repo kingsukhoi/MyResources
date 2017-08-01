@@ -25,7 +25,12 @@ pushGitRepos () {
 		gitoutput=`git remote show origin`
 		regex="***REMOVED***
 		if [[ $gitoutput =~ $regex ]];then
-			`git commit -a -m \"backup commit\"` 
+			if [[ `git status` =~ 'up-to-date' ]]; then
+				shift 
+				continue
+			fi
+		
+			`git add * && git commit -m 'backup commit'` 
 		
 			`git push`
 		fi
