@@ -1,4 +1,6 @@
 #!/bin/bash
 
-curl https://kingsukhoi:cell00highway@dynupdate.no-ip.com/nic/update?hostname=bullfreak.zapto.org&myip=`curl ifconfig.me`
+curl -H 'Authorization: Basic a2luZ3N1a2hvaTpjZWxsMDBoaWdod2F5' https://dynupdate.no-ip.com/nic/update?hostname=bullfreak.zapto.org&myip=`curl ifconfig.me`
+
+#curl https://kingsukhoi:cell00highway@dynupdate.no-ip.com/nic/update?hostname=bullfreak.zapto.org&myip=`curl ifconfig.me`
 #wget https://a2luZ3N1a2hvaTpjZWxsMDBoaWdod2F5@dynupdate.no-ip.com/nic/update?hostname=bullfreak.zapto.org&myip=`curl ifconfig.me`
