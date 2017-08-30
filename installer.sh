@@ -19,3 +19,6 @@ export PATH=\"\$RESOURCEDIR/TerminalMods/programs:\$PATH\"
 	"
 echo -e "$modsString" >> ~/.bashrc
 
+
+#Make trash folder if no exist
+mkdir -p ~/.local/share/Trash/{files,info}
