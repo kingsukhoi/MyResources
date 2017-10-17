@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+curl -H 'Authorization: Basic ***REMOVED***' https://dynupdate.no-ip.com/nic/update?hostname=bullfreak.zapto.org&myip=`curl https://api.ipify.org`
 curl -H 'Authorization: Basic ***REMOVED***' https://dynupdate.no-ip.com/nic/update?hostname=bullfreak.zapto.org&myip=`curl ifconfig.me`
 
 #curl https://***REMOVED***:***REMOVED***@dynupdate.no-ip.com/nic/update?hostname=bullfreak.zapto.org&myip=`curl ifconfig.me`
