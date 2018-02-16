@@ -22,3 +22,4 @@ echo -e "$modsString" >> ~/.bashrc
 
 #Make trash folder if no exist
 mkdir -p ~/.local/share/Trash/{files,info}
+cp $whereami/inputrc ~/.inputrc 
