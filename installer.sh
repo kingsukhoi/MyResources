@@ -3,12 +3,13 @@ set -eu
 
 
 #add the resource variable and modify the path
-whereami=`readlink -f "$0"`
-regex="^\/(.+)\/installer.sh$"
-if [[ $whereami =~ $regex ]]; then
-	whereami="${BASH_REMATCH[1]}"
-fi
+#whereami=`readlink -f "$0"`
+#regex="^\/(.+)\/installer.sh$"
+#if [[ $whereami =~ $regex ]]; then
+#	whereami="${BASH_REMATCH[1]}"
+#fi
 
+whereami="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 modsString="
 ##mods for resources install start
