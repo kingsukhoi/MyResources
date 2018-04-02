@@ -18,4 +18,5 @@ if [[ -f "$sourcedfiledir/up" ]];then
 fi
 }
 ##farsos directory movement end
+alias whereami="hostnamectl"
 ###My Modfications End
