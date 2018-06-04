@@ -1,1 +1,1 @@
-find output/ -name *.png -type f -exec rename 's:.png$:.wayto:g' '{}' \;
+find output/ -name *.png -type f -exec rename 's:.png$:.jpg:g' '{}' \;
