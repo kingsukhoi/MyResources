@@ -12,7 +12,5 @@ fi
 
 touch $name
 chmod u+x $name
-#in case a script of same name exists don't want to overwrite
-echo -e "#!/bin/bash\nset -ue\n">>$name
 vim $name
 
