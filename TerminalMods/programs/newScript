@@ -11,6 +11,8 @@ fi
 
 
 touch $name
+echo "#!/bin/bash
+set -ue" >> $name
 chmod u+x $name
 vim $name
 
