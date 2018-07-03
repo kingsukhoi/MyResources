@@ -19,4 +19,5 @@ fi
 }
 ##farsos directory movement end
 alias whereami="hostnamectl"
+alias rsync="rsync --progress"
 ###My Modfications End
