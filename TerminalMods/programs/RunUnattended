@@ -1,0 +1,9 @@
+#!/bin/bash
+set -ue
+
+output="$(echo $@ | bash)"
+
+
+echo -e "$@ finished \n\n$output" | sendmail $EMAIL
+
+
