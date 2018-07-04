@@ -3,7 +3,13 @@ set -ue
 
 myip=`curl https://api.ipify.org`
 
-wget -qO- --http-user="$2" --http-password="$3" "https://domains.google.com/nic/update?hostname=$1&myip=$myip"
+#google sample
+#https://username:password@domains.google.com/nic/update?hostname=subdomain.yourdomain.com&myip=1.2.3.4
+
+
+
+
+#wget -qO- --http-user="$2" --http-password="$3" "https://domains.google.com/nic/update?hostname=$1&myip=$myip"
 
 #echo $myip
-#echo "curl -X POST -d 'Authorization: Basic NEdrUkhPQzNkM05JNUVQMDo0SnpaWFZVN1NobjMwMW5vCg==' https://domains.google.com/nic/update?hostname=bullsilver.farsos.ca&myip=$myip"
+#echo "curl -X POST -d 'Authorization: Basic ***REMOVED***==' https://domains.google.com/nic/update?hostname=bullsilver.farsos.ca&myip=$myip"
