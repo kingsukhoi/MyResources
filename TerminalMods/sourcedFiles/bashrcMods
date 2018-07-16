@@ -18,6 +18,6 @@ if [[ -f "$sourcedfiledir/up" ]];then
 fi
 }
 ##farsos directory movement end
-alias whereami="hostnamectl"
+alias whereami="hostnamectl | grep hostname | cut -d ':' -f 2"
 alias rsync="rsync --progress"
 ###My Modfications End
