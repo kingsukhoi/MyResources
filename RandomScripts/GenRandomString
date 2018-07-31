@@ -1,0 +1,4 @@
+#!/bin/bash
+set -ue
+
+openssl rand -base64 64
