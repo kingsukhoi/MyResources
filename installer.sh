@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ux
+set -u
 
 
 whereami="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
