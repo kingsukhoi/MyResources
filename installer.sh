@@ -1,17 +1,14 @@
 #!/bin/bash
-set -u
+set -ux
 
 
-#add the resource variable and modify the path
-#whereami=`readlink -f "$0"`
-#regex="^\/(.+)\/installer.sh$"
-#if [[ $whereami =~ $regex ]]; then
-#	whereami="${BASH_REMATCH[1]}"
-#fi
-
-echo "please provide an email address for Run On Complete Script"
-read email
 whereami="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+email=""
+get_email() {
+    echo "please provide an email address for Run On Complete Script"
+    read email
+}
+
 
 add_mod_string(){
     modsString="
@@ -51,10 +48,23 @@ rm_modstring_if_exist(){
     sed -i.bak "$startLine,$endLine d" ~/.bashrc
 }
 
-rm_modstring_if_exist
-add_mod_string
+add_trash_folder() {
+    #Make trash folder if no exist
+    mkdir -p ~/.local/share/Trash/{files,info}
+}
+copy_input_rc() {
+    #if I make any changes to inputrc, they'll get copied over because the file will be overwritten
+    cp $whereami/inputrc ~/.inputrc
+}
 
-#Make trash folder if no exist
-mkdir -p ~/.local/share/Trash/{files,info}
-#if I make any changes to inputrc, they'll get copied over because the file will be overwritten
-cp $whereami/inputrc ~/.inputrc
+main() {
+    echo "$@" | grep '\-e'
+    if [ $? -eq 0 ]; then
+        get_email
+    fi
+    rm_modstring_if_exist
+    add_mod_string
+    add_trash_folder
+    copy_input_rc
+}
+main "$@"
