@@ -15,7 +15,7 @@ chmod u+x $name
 while :; do
     case $1 in
         -p | --python)
-            echo "#!/usr/bin/env python3"
+            echo "#!/usr/bin/env python3" >> $name
             break
             ;;
         *)
