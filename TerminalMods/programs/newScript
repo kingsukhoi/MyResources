@@ -14,11 +14,14 @@ chmod u+x $name
 
 while :; do
     case $1 in
-        -p|--python)
+        -p | --python)
             echo "#!/usr/bin/env python3"
             break
+            ;;
         *)
             echo -e "#!/bin/bash \n set -ue" >> $name
+            break
+            ;;
     esac
     shift
 done
