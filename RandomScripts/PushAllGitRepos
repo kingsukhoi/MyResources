@@ -23,7 +23,7 @@ pushGitRepos () {
 		cd "$gitPath"
 
 		gitoutput=`git remote show origin`
-		regex="***REMOVED***
+		regex="kingsukhoi"
 		if [[ $gitoutput =~ $regex ]];then
 			if [[ `git status` =~ 'up-to-date' ]]; then
 				shift 
