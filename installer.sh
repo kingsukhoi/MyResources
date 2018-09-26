@@ -63,7 +63,10 @@ copy_input_rc() {
     #if I make any changes to inputrc, they'll get copied over because the file will be overwritten
     cp $whereami/inputrc ~/.inputrc
 }
-
+add_global_gitignore(){
+    git config --global core.excludesfile ~/.gitignore
+    cp "$whereami/gitignore_global" "$HOME/.gitignore_global"
+}
 main() {
     echo "$@" | grep '\-e'
     if [ $? -eq 0 ]; then
@@ -73,6 +76,7 @@ main() {
     add_mod_string
     add_trash_folder
     copy_input_rc
+    add_global_gitignore
     install_amix_vim
 }
 main "$@"
