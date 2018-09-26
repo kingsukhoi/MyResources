@@ -6,7 +6,7 @@ whereami="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 email=""
 get_email() {
     echo "please provide an email address for Run On Complete Script"
-    read email
+    read -r email
 }
 
 install_amix_vim() {
@@ -37,7 +37,7 @@ rm_modstring_if_exist(){
 
     startLine=$(grep -n "##mods for resources install start" ~/.bashrc)
 
-    if [ $? -ne 0 ];then
+    if grep -n "##mods for resources install start" ~/.bashrc ;then
         return 0
     fi
 
@@ -61,15 +61,15 @@ add_trash_folder() {
 }
 copy_input_rc() {
     #if I make any changes to inputrc, they'll get copied over because the file will be overwritten
-    cp $whereami/inputrc ~/.inputrc
+    cp "$whereami/inputrc" "$HOME/.inputrc"
 }
 add_global_gitignore(){
     git config --global core.excludesfile ~/.gitignore
     cp "$whereami/gitignore_global" "$HOME/.gitignore_global"
 }
 main() {
-    echo "$@" | grep '\-e'
-    if [ $? -eq 0 ]; then
+
+    if echo "$@" | grep '\-e'; then
         get_email
     fi
     rm_modstring_if_exist
