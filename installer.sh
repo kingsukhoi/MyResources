@@ -69,6 +69,10 @@ install_caddy() {
     tar -xvf "$HOME/Downloads/caddy.tar.gz" -C "$HOME/bin" caddy
 }
 
+add_global_gitignore(){
+    git config --global core.excludesfile ~/.gitignore
+    cp "$whereami/gitignore_global" "$HOME/.gitignore_global"
+}
 main() {
     echo "$@" | grep '\-e'
     if [ $? -eq 0 ]; then
@@ -78,6 +82,7 @@ main() {
     add_mod_string
     add_folders
     copy_input_rc
+    add_global_gitignore
     install_amix_vim
 }
 main "$@"
