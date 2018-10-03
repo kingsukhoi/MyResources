@@ -55,14 +55,20 @@ rm_modstring_if_exist(){
     sed -i.bak "$startLine,$endLine d" ~/.bashrc
 }
 
-add_trash_folder() {
+add_folders() {
     #Make trash folder if no exist
-    mkdir -p ~/.local/share/Trash/{files,info}
+    mkdir -p ~/.local/share/Trash/{files,info} "$HOME/bin" "$HOME/Downloads"
 }
 copy_input_rc() {
     #if I make any changes to inputrc, they'll get copied over because the file will be overwritten
     cp "$whereami/inputrc" "$HOME/.inputrc"
 }
+install_caddy() {
+    caddy_url='https://caddyserver.com/download/linux/amd64?license=personal&telemetry=on'
+    wget "$caddy_url" -O "$HOME/Downloads/caddy.tar.gz"
+    tar -xvf "$HOME/Downloads/caddy.tar.gz" -C "$HOME/bin" caddy
+}
+
 add_global_gitignore(){
     git config --global core.excludesfile ~/.gitignore
     cp "$whereami/gitignore_global" "$HOME/.gitignore_global"
@@ -74,7 +80,7 @@ main() {
     fi
     rm_modstring_if_exist
     add_mod_string
-    add_trash_folder
+    add_folders
     copy_input_rc
     add_global_gitignore
     install_amix_vim
