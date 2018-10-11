@@ -84,5 +84,6 @@ main() {
     copy_input_rc
     add_global_gitignore
     install_amix_vim
+    install_caddy
 }
 main "$@"
