@@ -1,4 +1,4 @@
 alias whereami="hostnamectl | grep 'Static hostname' | cut -d ':' -f 2"
 alias rsync="rsync --info=progress2"
 alias dd="dd status=progress"
-alias rm="echo 'use trash dumbass'"
+alias rm="echo 'use trash'"
