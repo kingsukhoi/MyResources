@@ -1,6 +1,7 @@
 #!/bin/bash
-set -u
+set -uex
 
+BASHRC_LOC="${HOME}/.bashrc"
 
 whereami="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 email=""
@@ -30,29 +31,27 @@ export PATH=\"\$RESOURCEDIR/TerminalMods/programs:\$PATH\"
 }
 
 get_line_num_from_grep(){
-    echo "$1" | cut -f1 -d:
+    grep -n "$1" "$BASHRC_LOC" | cut -f1 -d:
 }
 
 rm_modstring_if_exist(){
 
-    startLine=$(grep -n "##mods for resources install start" ~/.bashrc)
+    startLine="##mods for resources install start"
 
-    if grep -n "##mods for resources install start" ~/.bashrc ;then
-        return 0
+    if ! grep "$startLine" "$BASHRC_LOC" ;then
+        return 1
     fi
 
-    endLine=$(grep -n "##mods for resources install end" ~/.bashrc)
+    endLine="##mods for resources install end"
 
-    #echo $startLine
-    #echo $endLine
 
     startLine=$(get_line_num_from_grep "$startLine")
     endLine=$(get_line_num_from_grep "$endLine")
 
-    #echo $startLine
-    #echo $endLine
+    echo "$startLine"
+    echo "$endLine"
 
-    sed -i.bak "$startLine,$endLine d" ~/.bashrc
+    sed -i.bak "$startLine,${endLine}d" $BASHRC_LOC
 }
 
 add_folders() {
