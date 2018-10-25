@@ -6,12 +6,12 @@ while [ $# -ge 1 ]; do
 		continue
 	fi
 	murder="$1"
-	if [[ $murder =~ ^\/$ ]]; then
+	if [[ $murder =~ '^/$' ]]; then
 	echo "
-	I don't know who you are, but you tried to kill my baby
-	I advise you leave now because if you continue down this path
-	Your actions will come back to haunt you
-	and when they do, no one will be able to help you
+I don't know who you are, but you tried to kill my baby
+I advise you leave now because if you continue down this path
+Your actions will come back to haunt you
+and when they do, no one will be able to help you
 	"
     	exit 1
   	fi
@@ -46,7 +46,7 @@ while [ $# -ge 1 ]; do
 	
  	#create an entry in said trashbin
 	tinfoFile="$HOME/.local/share/Trash/info/$murder.trashinfo"
-	touch $tinfoFile
+	touch "$tinfoFile"
 
   	echo -e -n "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" > "$tinfoFile" 
 	shift
