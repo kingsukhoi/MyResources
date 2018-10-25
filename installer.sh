@@ -51,7 +51,7 @@ rm_modstring_if_exist(){
     echo "$startLine"
     echo "$endLine"
 
-    sed -i.bak "$startLine,${endLine}d" $BASHRC_LOC
+    sed -i.bak "$startLine,${endLine}d" "$BASHRC_LOC"
 }
 
 add_folders() {
