@@ -39,7 +39,7 @@ rm_modstring_if_exist(){
     startLine="##mods for resources install start"
 
     if ! grep "$startLine" "$BASHRC_LOC" ;then
-        return 1
+        return 0
     fi
 
     endLine="##mods for resources install end"
