@@ -1,5 +1,5 @@
 #!/bin/bash
-set -uex
+set -ue
 
 BASHRC_LOC="${HOME}/.bashrc"
 
