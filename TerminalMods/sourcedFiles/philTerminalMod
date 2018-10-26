@@ -41,25 +41,17 @@ happy(){
 }
 
 set_bash_prompt(){
-    currLoc=$HOSTNAME
-    #BullTerminal is just the name of the window
-#happy
-#PS1='\[\e]2;BullTerminal\a\]n\e[0;1;30m\]╔═ $(happy $commOutput) ═╣ \w ╠══$(ifJobs)\n╚═➤\[\e[0m\] '
+    currHost=$HOSTNAME
     
     commOutput=`echo $?`
-    #$(happy $commOutput)
 
-    #if [ "$TERM" == "konsole" ]; then
-         #PS1="\[\e]2;BullTerminal\a\]\[\033[0m\]\u> "
-    #else
-        if [ $commOutput -ne 0 ] && [ $commOutput -ne 127 ] && [ $commOutput -ne 130 ] && [ $commOutput -ne 148 ] && [ $commOutput -ne 2 ];then
-            PS1="\[\e]2;${currLoc}\a\]\[\033[0;1;30m\]            ═╩═\n╔═ $(happy $commOutput) \w ╠══$(ifJobs)\n╚═➤\[\e[0m\] "
-        else
-            PS1="\[\e]2;${currLoc}\a\]\n\[\033[0;1;30m\]╔═ $(happy $commOutput) ═╣ \w ╠══$(ifJobs)\n╚═➤\[\e[0m\] "
-        fi
-    #fi
+    if [ $commOutput -ne 0 ] && [ $commOutput -ne 127 ] && [ $commOutput -ne 130 ] && [ $commOutput -ne 148 ] && [ $commOutput -ne 2 ];then
+        PS1="\[\e]2;${currHost}\a\]\[\033[0;1;30m\]            ═╩═\n╔═ $(happy $commOutput) \w ╠══$(ifJobs)\n╚═➤\[\e[0m\] "
+    else
+        PS1="\[\e]2;${currHost}\a\]\n\[\033[0;1;30m\]╔═ $(happy $commOutput) ═╣ \w ╠══$(ifJobs)\n╚═➤\[\e[0m\] "
+    fi
 }
-#
+
 PROMPT_COMMAND=set_bash_prompt
 #
 #
