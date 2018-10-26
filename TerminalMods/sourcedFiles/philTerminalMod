@@ -41,8 +41,8 @@ happy(){
 }
 
 set_bash_prompt(){
-    currLoc=$(hostnamectl | grep 'Static hostname' | cut -d ':' -f 2)
-#BullTerminal is just the name of the window
+    currLoc=$HOSTNAME
+    #BullTerminal is just the name of the window
 #happy
 #PS1='\[\e]2;BullTerminal\a\]n\e[0;1;30m\]╔═ $(happy $commOutput) ═╣ \w ╠══$(ifJobs)\n╚═➤\[\e[0m\] '
     
