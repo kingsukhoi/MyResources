@@ -41,8 +41,10 @@ happy(){
 }
 
 set_bash_prompt(){
-    currHost=$HOSTNAME
-    
+    currHost=""
+    if [ ! "$TERM" = 'linux' ]; then
+        currHost=$HOSTNAME
+    fi
     commOutput=`echo $?`
 
     if [ $commOutput -ne 0 ] && [ $commOutput -ne 127 ] && [ $commOutput -ne 130 ] && [ $commOutput -ne 148 ] && [ $commOutput -ne 2 ];then
