@@ -48,6 +48,6 @@ and when they do, no one will be able to help you
 	tinfoFile="$HOME/.local/share/Trash/info/$murder.trashinfo"
 	touch "$tinfoFile"
 
-  	echo -e -n "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" > "$tinfoFile" 
+  	echo -e "[Trash Info]\nPath=$oPath\nDeletionDate=$(date +%d-%m-%YT%H:%M:%S)" > "$tinfoFile" 
 	shift
 done
