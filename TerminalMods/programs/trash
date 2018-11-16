@@ -16,8 +16,9 @@ and when they do, no one will be able to help you
     	exit 1
   	fi
 	#check if file exists
-	if [ ! -e "$murder" ]; then 
-		echo "$murder no exist"
+	#if [ ! -e "$murder" ]; then 
+	if ! find "$murder" &> /dev/null ; then
+        echo "$murder no exist"
 		shift
 		continue
 	fi
@@ -30,7 +31,7 @@ and when they do, no one will be able to help you
   	#get the full path of the file or folder I want dead
  	oPath=$(readlink -f "$murder")
   	#drop the / if it's a directory
-  	regex="(.*)\/$"
+  	regex="(.*)\\/$"
 	if [[ $murder =~ $regex  ]];then
 		murder=${BASH_REMATCH[1]}
 		oPath="$oPath"
