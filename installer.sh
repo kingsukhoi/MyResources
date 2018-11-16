@@ -72,6 +72,15 @@ add_global_gitignore(){
     git config --global core.excludesfile ~/.gitignore
     cp "$whereami/gitignore_global" "$HOME/.gitignore_global"
 }
+increase_inotify(){
+    echo -n "Want to increase iNotify limit(Seafile, Webstorm)? [y/n]: "
+    read response
+    if [ "$response" = "y" ]; then
+        #copied from https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers
+        echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+    fi
+}
+
 main() {
 
     if echo "$@" | grep '\-e'; then
@@ -84,5 +93,6 @@ main() {
     add_global_gitignore
     install_amix_vim
     install_caddy
+    increase_inotify
 }
 main "$@"
