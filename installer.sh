@@ -73,7 +73,7 @@ add_global_gitignore(){
     cp "$whereami/gitignore_global" "$HOME/.gitignore_global"
 }
 increase_inotify(){
-    echo -n "Want to increase iNotify limit(Seafile, Webstorm)? [y/n]: "
+    echo -n "Want to increase iNotify limit(Seafile, Webstorm)? [y/N]: "
     read response
     if [ "$response" = "y" ]; then
         #copied from https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers
