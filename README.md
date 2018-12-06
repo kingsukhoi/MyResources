@@ -6,4 +6,4 @@ Programs include:
 - [Amix's](https://github.com/amix/vimrc) vim modifications
 
 ## Installation
-To install run `./installer.sh` then run source `~/.bashrc`.
+To install run `./installer.sh` then run `source ~/.bashrc`.
