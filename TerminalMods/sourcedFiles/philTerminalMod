@@ -43,7 +43,7 @@ happy(){
 set_bash_prompt(){
     currHost=""
     if [ ! "$TERM" = 'linux' ]; then
-        currHost=$HOSTNAME
+        currHost="$HOSTNAME: $PWD"
     fi
     commOutput=`echo $?`
 
