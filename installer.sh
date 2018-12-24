@@ -69,7 +69,7 @@ install_caddy() {
 }
 
 add_global_gitignore(){
-    git config --global core.excludesfile ~/.gitignore
+    git config --global core.excludesfile ~/.gitignore_global
     cp "$whereami/gitignore_global" "$HOME/.gitignore_global"
 }
 increase_inotify(){
