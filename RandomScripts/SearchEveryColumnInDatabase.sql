@@ -1,69 +1,72 @@
-/*http://thesitedoctor.co.uk/blog/search-every-table-and-field-in-a-sql-server-database-updated/*/
+DECLARE @DataToFind NVARCHAR(4000)
+DECLARE @ExactMatch BIT 
 
-DECLARE @SearchStr nvarchar(100)
-SET @SearchStr = '## YOUR STRING HERE ##'
+SET @DataToFind = 'data'
+SET @ExactMatch = 0
+
+DECLARE @Temp TABLE(RowId INT IDENTITY(1,1), SchemaName sysname, TableName sysname, ColumnName SysName, DataType VARCHAR(100), DataFound BIT)
+
+    INSERT  INTO @Temp(TableName,SchemaName, ColumnName, DataType)
+    SELECT  C.Table_Name,C.TABLE_SCHEMA, C.Column_Name, C.Data_Type
+    FROM    Information_Schema.Columns AS C
+            INNER Join Information_Schema.Tables AS T
+                ON C.Table_Name = T.Table_Name
+        AND C.TABLE_SCHEMA = T.TABLE_SCHEMA
+    WHERE   Table_Type = 'Base Table'
+            And Data_Type In ('ntext','text','nvarchar','nchar','varchar','char')
+
  
- 
-    -- Copyright © 2002 Narayana Vyas Kondreddi. All rights reserved.
-    -- Purpose: To search all columns of all tables for a given search string
-    -- Written by: Narayana Vyas Kondreddi
-    -- Site: http://vyaskn.tripod.com
-    -- Updated and tested by Tim Gaunt
-    -- http://www.thesitedoctor.co.uk
-    -- http://blogs.thesitedoctor.co.uk/tim/2010/02/19/Search+Every+Table+And+Field+In+A+SQL+Server+Database+Updated.aspx
-    -- Tested on: SQL Server 7.0, SQL Server 2000, SQL Server 2005 and SQL Server 2010
-    -- Date modified: 03rd March 2011 19:00 GMT
-    CREATE TABLE #Results (ColumnName nvarchar(370), ColumnValue nvarchar(3630))
- 
-    SET NOCOUNT ON
- 
-    DECLARE @TableName nvarchar(256), @ColumnName nvarchar(128), @SearchStr2 nvarchar(110)
-    SET  @TableName = ''
-    SET @SearchStr2 = QUOTENAME('%' + @SearchStr + '%','''')
- 
-    WHILE @TableName IS NOT NULL
-     
+DECLARE @i INT
+DECLARE @MAX INT
+DECLARE @TableName sysname
+DECLARE @ColumnName sysname
+DECLARE @SchemaName sysname
+DECLARE @SQL NVARCHAR(4000)
+DECLARE @PARAMETERS NVARCHAR(4000)
+DECLARE @DataExists BIT
+DECLARE @SQLTemplate NVARCHAR(4000)
+
+SELECT  @SQLTemplate = CASE WHEN @ExactMatch = 1
+                            THEN 'If Exists(Select *
+                                          From   ReplaceTableName
+                                          Where  Convert(nVarChar(4000), [ReplaceColumnName])
+                                                       = ''' + @DataToFind + '''
+                                          )
+                                     Set @DataExists = 1
+                                 Else
+                                     Set @DataExists = 0'
+                            ELSE 'If Exists(Select *
+                                          From   ReplaceTableName
+                                          Where  Convert(nVarChar(4000), [ReplaceColumnName])
+                                                       Like ''%' + @DataToFind + '%''
+                                          )
+                                     Set @DataExists = 1
+                                 Else
+                                     Set @DataExists = 0'
+                            END,
+        @PARAMETERS = '@DataExists Bit OUTPUT',
+        @i = 1
+
+SELECT @i = 1, @MAX = MAX(RowId)
+FROM   @Temp
+
+WHILE @i <= @MAX
     BEGIN
-        SET @ColumnName = ''
-        SET @TableName = 
-        (
-            SELECT MIN(QUOTENAME(TABLE_SCHEMA) + '.' + QUOTENAME(TABLE_NAME))
-            FROM     INFORMATION_SCHEMA.TABLES
-            WHERE         TABLE_TYPE = 'BASE TABLE'
-                AND    QUOTENAME(TABLE_SCHEMA) + '.' + QUOTENAME(TABLE_NAME) > @TableName
-                AND    OBJECTPROPERTY(
-                        OBJECT_ID(
-                            QUOTENAME(TABLE_SCHEMA) + '.' + QUOTENAME(TABLE_NAME)
-                             ), 'IsMSShipped'
-                               ) = 0
-        )
+        SELECT  @SQL = REPLACE(REPLACE(@SQLTemplate, 'ReplaceTableName', QUOTENAME(SchemaName) + '.' + QUOTENAME(TableName)), 'ReplaceColumnName', ColumnName)
+        FROM    @Temp
+        WHERE   RowId = @i
+
  
-        WHILE (@TableName IS NOT NULL) AND (@ColumnName IS NOT NULL)
-             
-        BEGIN
-            SET @ColumnName =
-            (
-                SELECT MIN(QUOTENAME(COLUMN_NAME))
-                FROM     INFORMATION_SCHEMA.COLUMNS
-                WHERE         TABLE_SCHEMA    = PARSENAME(@TableName, 2)
-                    AND    TABLE_NAME    = PARSENAME(@TableName, 1)
-                    AND    DATA_TYPE IN ('char', 'varchar', 'nchar', 'nvarchar', 'int', 'decimal')
-                    AND    QUOTENAME(COLUMN_NAME) > @ColumnName
-            )
-     
-            IF @ColumnName IS NOT NULL
-             
-            BEGIN
-                INSERT INTO #Results
-                EXEC
-                (
-                    'SELECT ''' + @TableName + '.' + @ColumnName + ''', LEFT(' + @ColumnName + ', 3630) FROM ' + @TableName + ' (NOLOCK) ' +
-                    ' WHERE ' + @ColumnName + ' LIKE ' + @SearchStr2
-                )
-            END
-        END   
+        PRINT @SQL
+        EXEC SP_EXECUTESQL @SQL, @PARAMETERS, @DataExists = @DataExists OUTPUT
+
+        IF @DataExists =1
+            UPDATE @Temp SET DataFound = 1 WHERE RowId = @i
+
+        SET @i = @i + 1
     END
- 
-    SELECT ColumnName, ColumnValue FROM #Results
- 
-DROP TABLE #Results
+
+SELECT  SchemaName,TableName, ColumnName, 'SELECT ' + ColumnName + ', * FROM ' + TableName + ' WHERE ' + ColumnName + ' LIKE ''%' + @DataToFind + '%'''
+FROM    @Temp
+WHERE   DataFound = 1
+GO
