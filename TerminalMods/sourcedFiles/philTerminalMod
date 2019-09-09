@@ -34,7 +34,7 @@ happy(){
         echo -ne '\e[0;1;30m'
     else  ##all else, error?
         echo -ne '\e[0;31m'
-        echo -ne 'ﾉ(`Д`)ﾉ彡'
+        echo -ne 'ﾉ(\`Д\`)ﾉ彡'
         echo -ne '\e[0;1;30m'
     fi
 }
