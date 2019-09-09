@@ -7,3 +7,6 @@ Programs include:
 
 ## Installation
 To install run `./installer.sh` then run `source ~/.bashrc`.
+
+## Credits
+BASH template came from [lfkdev](https://github.com/lfkdev/bashtemplate)
