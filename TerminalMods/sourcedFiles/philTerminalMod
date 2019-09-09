@@ -1,4 +1,3 @@
-
 ##phil's terminal mod start
 
 
@@ -41,12 +40,11 @@ happy(){
 }
 
 set_bash_prompt(){
+    commOutput="$?" 
     currHost=""
     if [ ! "$TERM" = 'linux' ]; then
         currHost="$HOSTNAME: $PWD"
     fi
-    commOutput=`echo $?`
-
     if [ $commOutput -ne 0 ] && [ $commOutput -ne 127 ] && [ $commOutput -ne 130 ] && [ $commOutput -ne 148 ] && [ $commOutput -ne 2 ];then
         PS1="\[\e]2;${currHost}\a\]\[\033[0;1;30m\]            ═╩═\n╔═ $(happy $commOutput) \w ╠══$(ifJobs)\n╚═➤\[\e[0m\] "
     else
