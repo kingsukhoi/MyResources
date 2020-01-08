@@ -82,12 +82,6 @@ extract_file_to_bin(){
     tar -xvf "$DOWNLOAD_LOC/$1" --strip-components="$3"  -C "$BIN_LOC" "$2"
 }
 
-install_caddy() {
-    fileTar='caddy.tar.gz'
-    file='caddy'
-    url='https://caddyserver.com/download/linux/amd64?license=personal&telemetry=on'
-    download_install_to_bin "$url" "$fileTar" "$file"
-}
 # url, filename.gz, filename in tarball, skip
 download_install_to_bin(){
     skip="${4:-0}"
@@ -117,13 +111,6 @@ get_latest_release() {
    curl --silent "https://api.github.com/repos/$1/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's:v::'
 }
 
-install_jj(){
-    release_num=$(get_latest_release "tidwall/jj")
-    file='jj.tar.gz'
-    url="https://github.com/tidwall/jj/releases/download/v${release_num}/jj-${release_num}-linux-amd64.tar.gz"
-    download_install_to_bin "$url" "$file" "jj-1.2.2-linux-amd64/jj" 1
-}
-
 main() {
 
     if echo "$@" | grep '\-e'; then
@@ -135,8 +122,6 @@ main() {
     copy_input_rc
     add_global_gitignore
     install_amix_vim
-    install_jj
-    install_caddy
     increase_inotify
 }
 main "$@"
