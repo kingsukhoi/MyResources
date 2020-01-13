@@ -135,8 +135,8 @@ main() {
     copy_input_rc
     add_global_gitignore
     install_amix_vim
-    install_jj
-    install_caddy
+#    install_jj
+#    install_caddy
     increase_inotify
 }
 main "$@"
