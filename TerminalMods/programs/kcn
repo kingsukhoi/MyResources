@@ -1,0 +1,12 @@
+#!/bin/bash
+
+main(){
+    curr_namespace=$1
+    if [ -z $curr_namespace ]; then 
+        1>&2 echo 'Error: please provide a namespace'
+    else
+        kubectl config set-context --current --namespace="$curr_namespace"
+    fi
+}
+
+main $@
