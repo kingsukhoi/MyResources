@@ -1,0 +1,6 @@
+#!/bin/bash
+set -ue 
+
+#kubernetes which context
+
+kubectl config view --minify --output 'jsonpath={.current-context}'
