@@ -4,7 +4,7 @@ set -ueo pipefail
 password="PasSWorD"
 
 checkForDisk(){
-  if hdparm -I /dev/sda | grep frozen | grep not; then
+  if hdparm -I "$disk" | grep frozen | grep not; then
     return 0
   else
     echo "sumting wrong" >&2
@@ -24,9 +24,10 @@ getName(){
 
 wipeDevice(){
   modelName=$(getName $1)
-  echo -n "Are you sure you want to wipe $modelName at $1? [yN]"
-  read -u 1 -n 1 key
-  [[ $key = "yes" ]] &&  rm "$line"
+  read -p "Are you sure you want to wipe $modelName at $1? (only yes will be accepted) " key
+  if [[ $key != "yes" ]]; then
+    exit 0
+  fi
   echo
 
   hdparm --user-master u --security-erase-enhanced "$password" $1
