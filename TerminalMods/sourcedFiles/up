@@ -1,7 +1,8 @@
+counter=${1:-1}
+dirs=""
+for ((x=0; x<$counter; x++ ));do
+  dirs="../$dirs"
+done
 
-
-	counter=${1:-1}	
-	for ((x=0; x<$counter; x++ ));do
-		cd ..
-	done
+cd $dirs
 
