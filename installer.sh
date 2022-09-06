@@ -101,14 +101,11 @@ add_global_gitignore(){
 }
 increase_inotify(){
     notify_string="fs.inotify.max_user_watches=524288"
-    file="/etc/sysctl.conf"
-    echo -n "Want to increase iNotify limit(Seafile, Webstorm)? [y/N]: "
-    read -r response
+    file="/etc/sysctl.d/10-inotify.conf"
+    read -p "Want to increase iNotify limit(Seafile, Webstorm)? [y/N]: " -r response
     if [ "$response" = "y" ]; then
-        if ! grep $notify_string $file &> /dev/null; then
-            #copied from https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers
-            echo $notify_string  | sudo tee -a $file && sudo sysctl -p
-        fi
+      #copied from https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers
+      echo $notify_string  | sudo tee $file && sudo sysctl -p
     fi
 }
 
@@ -120,14 +117,14 @@ get_latest_release() {
 main() {
 
     if echo "$@" | grep '\-e'; then
-        get_email
+      get_email
     fi
     rm_modstring_if_exist
     add_mod_string
     add_folders
     copy_input_rc
     add_global_gitignore
-    install_amix_vim
+#   install_amix_vim
 #   install_jj
 #   install_caddy
     increase_inotify
