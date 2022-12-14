@@ -1,26 +1,21 @@
 #!/bin/bash
 set -ueo pipefail
 
-cwd="$PWD"
-
-while read in; do
+while read -r in; do
   if [[ "$in" =~ git@github\.com:.+\/(.+)\.git  ]]; then
     folderName=${BASH_REMATCH[1]}
     if [[ -d $folderName  ]]; then
       echo -e "********
 * $folderName
 ********"
-      cd "$folderName"
-      git fetch --all
-      git checkout develop
-      git pull
+      git -C "$folderName" fetch --all
+      git -C "$folderName" checkout develop
+      git -C "$folderName" pull -r --all
     else
       git clone "$in"
-      cd "$folderName"
-      git checkout develop
+      git -C "$folderName" checkout develop
     fi
   fi
-  cd "$cwd"
   echo ""
 done < services.txt
 
