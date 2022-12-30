@@ -95,8 +95,10 @@ download_install_to_bin(){
     extract_file_to_bin "$2" "$3" "$skip"
 }
 
-add_global_gitignore(){
+configure_git(){
     git config --global core.excludesfile ~/.gitignore_global
+    git config --global --add push.autoSetupRemote true
+    git config --global init.defaultBranch main
     cp "$whereami/gitignore_global" "$HOME/.gitignore_global"
 }
 increase_inotify(){
@@ -123,7 +125,7 @@ main() {
     add_mod_string
     add_folders
     copy_input_rc
-    add_global_gitignore
+    configure_git
 #   install_amix_vim
 #   install_jj
 #   install_caddy
