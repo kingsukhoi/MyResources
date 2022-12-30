@@ -1,0 +1,8 @@
+#!/bin/bash
+set -ueo pipefail
+
+image="$1"
+
+docker pull "$image"
+
+docker run -ti --rm --entrypoint=bash "$image"
