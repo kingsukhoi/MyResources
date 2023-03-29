@@ -12,20 +12,6 @@ get_email() {
     read -r email
 }
 
-install_amix_vim() {
-    if [ ! -f ~/.vim_runtime/install_awesome_vimrc.sh ]; then
-        git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
-        sh ~/.vim_runtime/install_awesome_vimrc.sh
-        #echo "set number" >> ~/.vimrc
-        cat >> ~/.vimrc<< EOF
-set tabstop=2
-set expandtab
-set shiftwidth=2
-set number
-EOF
-    fi
-}
-
 add_mod_string(){
     modsString="
 ##mods for resources install start
@@ -35,7 +21,9 @@ source \"\$RESOURCEDIR/TerminalMods/sourcedFiles/bashrcMods\"
 export PATH=\"\$RESOURCEDIR/TerminalMods/programs:\$PATH\"
 ##mods for resources install end
     	"
-    echo -e "$modsString" >> ~/.bashrc
+  if [ -f "$1" ]; then
+    echo -e "$modsString" >> "$1"
+  fi
 }
 
 get_line_num_from_grep(){
@@ -43,28 +31,29 @@ get_line_num_from_grep(){
 }
 
 rm_modstring_if_exist(){
+  file="$1"
 
-    startLine="##mods for resources install start"
+  startLine="##mods for resources install start"
 
-    if ! grep "$startLine" "$BASHRC_LOC" ;then
-        return 0
-    fi
+  if ! grep "$startLine" "$file" ;then
+      return 0
+  fi
 
-    endLine="##mods for resources install end"
+  endLine="##mods for resources install end"
 
 
-    startLine=$(get_line_num_from_grep "$startLine")
-    endLine=$(get_line_num_from_grep "$endLine")
+  startLine=$(get_line_num_from_grep "$startLine")
+  endLine=$(get_line_num_from_grep "$endLine")
 
-    echo "$startLine"
-    echo "$endLine"
+  echo "$startLine"
+  echo "$endLine"
 
-    sed -i.bak "$startLine,${endLine}d" "$BASHRC_LOC"
+  sed -i.bak "$startLine,${endLine}d" "$BASHRC_LOC"
 }
 
 copy_input_rc() {
     #if I make any changes to inputrc, they'll get copied over because the file will be overwritten
-    cp "$whereami/inputrc" "$HOME/.inputrc"
+    cp "$whereami/config/inputrc" "$HOME/.inputrc"
 }
 
 add_folders() {
@@ -99,7 +88,7 @@ configure_git(){
     git config --global core.excludesfile ~/.gitignore_global
     git config --global --add push.autoSetupRemote true
     git config --global init.defaultBranch main
-    cp "$whereami/gitignore_global" "$HOME/.gitignore_global"
+    cp "$whereami/config/gitignore_global" "$HOME/.gitignore_global"
 }
 increase_inotify(){
     notify_string="fs.inotify.max_user_watches=524288"
@@ -116,19 +105,29 @@ get_latest_release() {
    curl --silent "https://api.github.com/repos/$1/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's:v::'
 }
 
+# programs that have their config files in the .config folder
+add_config_folder_files(){
+  mkdir -p "$HOME/.config"
+  cp -r "$whereami/config/nvim" "$whereami/config/starship.toml" "$HOME/.config"
+}
+
 main() {
 
     if echo "$@" | grep '\-e'; then
       get_email
     fi
-    rm_modstring_if_exist
-    add_mod_string
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+      increase_inotify
+    fi
+
+    rm_modstring_if_exist "$HOME/.bashrc"
+    rm_modstring_if_exist "$HOME/.zshrc"
+    add_mod_string "$HOME/.bashrc"
+    add_mod_string "$HOME/.zshrc"
+    
     add_folders
     copy_input_rc
     configure_git
-#   install_amix_vim
-#   install_jj
-#   install_caddy
-    increase_inotify
+    add_config_folder_files
 }
 main "$@"

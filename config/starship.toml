@@ -1,0 +1,9 @@
+[gcloud]
+format = 'on [$symbol$account(@$domain)(\($project\))]($style) '
+[kubernetes]
+disabled = false
+[kubernetes.context_aliases]
+"gke_development-flahmingo_northamerica-northeast1_flahmingo-dev-cluster" = "dev"
+"gke_flahmingo-closed-beta_northamerica-northeast1_customer-apps" = "cb"
+"gke_flahmingo-preprod-356118_northamerica-northeast1_customer-apps" = "preprod"
+"gke_flahmingo-prod-357017_northamerica-northeast1_customer-apps" = "prod"
