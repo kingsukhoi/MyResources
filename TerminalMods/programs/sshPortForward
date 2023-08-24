@@ -1,0 +1,7 @@
+#!/bin/bash
+set -ueo pipefail
+
+# base command
+# ssh -L <local port to bind>:<address relative to the server>:<port relative to the server> <user>@<ip> -C <command to run>
+
+main (){}
