@@ -2,7 +2,7 @@
 set -ue
 
 BASHRC_LOC="${HOME}/.bashrc"
-DOWNLOAD_LOC="${HOME}/Downloads"
+DOWNLOAD_LOC="${HOME}/downloads"
 BIN_LOC="${HOME}/bin"
 
 whereami="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
