@@ -1,5 +1,9 @@
 alias whereami="hostnamectl | grep 'Static hostname' | cut -d ':' -f 2"
-alias rsync="rsync --info=progress2"
-alias dd="dd status=progress"
-alias rm="echo 'use trash'"
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  alias rsync="rsync --info=progress2"
+  alias dd="dd status=progress"
+fi
+
+#alias rm="echo 'use trash'"
 alias ap="ansible-playbook"
