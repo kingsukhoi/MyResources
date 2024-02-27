@@ -58,7 +58,7 @@ copy_input_rc() {
 
 add_folders() {
     #Make trash folder if no exist
-    mkdir -p ~/.local/share/Trash/{files,info} "$HOME/bin" "$HOME/Downloads"
+    mkdir -p ~/.local/share/Trash/{files,info} "$HOME/bin" "$DOWNLOAD_LOC"
 }
 
 
