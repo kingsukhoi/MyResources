@@ -6,5 +6,5 @@ To install run `./installer.sh` then run `source ~/.bashrc`.
 
 ## Credits
 Programs include:
-- [LazyVim]((https://www.lazyvim.org/) nvim modifications
+- [LazyVim](https://www.lazyvim.org/) nvim modifications
 - BASH template came from [lfkdev](https://github.com/lfkdev/bashtemplate)
