@@ -6,5 +6,5 @@ To install run `./installer.sh` then run `source ~/.bashrc`.
 
 ## Credits
 Programs include:
-- [Caddy webserver](https://caddyserver.com/download)
-- [Amix's](https://github.com/amix/vimrc) vim modificationsBASH template came from [lfkdev](https://github.com/lfkdev/bashtemplate)
+- [LazyVim]((https://www.lazyvim.org/) nvim modifications
+- BASH template came from [lfkdev](https://github.com/lfkdev/bashtemplate)
