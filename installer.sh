@@ -105,17 +105,24 @@ get_latest_release() {
 
 # programs that have their config files in the .config folder
 add_config_folder_files() {
-  mkdir -p "$HOME/.config"
+  mkdir -p "$HOME/.config":
   cp -r "$whereami/config/starship.toml" "$HOME/.config"
 }
 
 installLazyVim() {
-  if [ ! -f "$HOME/.config/nvim/lazyvim.json" ]; then
-    mv "$HOME/.config/nvim/" "$HOME/.config/nvim.bak" || true
-    git clone https://github.com/LazyVim/starter ~/.config/nvim
-    rm -rf ~/.config/nvim/.git
+  # if [ ! -f "$HOME/.config/nvim/lazyvim.json" ]; then
+  #   mv "$HOME/.config/nvim/" "$HOME/.config/nvim.bak" || true
+  #   git clone https://github.com/LazyVim/starter ~/.config/nvim
+  #   rm -rf ~/.config/nvim/.git
+  # fi
+  # cp "$whereami/config/nvim/lazyvim/"* ~/.config/nvim/lua/plugins/
+  if [ -d "$HOME/.config/nvim" ]; then
+    rm -rf "$HOME/.config/nvim"
   fi
-  cp "$whereami/config/nvim/lazyvim/"* ~/.config/nvim/lua/plugins/
+  if [ ! -L "$HOME/MyResources/config/nvim" ]; then
+    ln -s "$HOME/MyResources/config/nvim" "$HOME/.config/nvim"
+  fi
+
 }
 
 main() {
