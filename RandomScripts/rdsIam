@@ -1,0 +1,22 @@
+#!/bin/bash
+set -ueo pipefail
+
+configFile="$HOME/.rdsIam.json"
+
+main() {
+
+  env="$1"
+
+  email=$(yq -r '.email' "$configFile")
+  export AWS_PROFILE=$(yq -r ".databases.$env.profile" "$configFile")
+  url=$(yq -r ".databases.$env.url" "$configFile")
+
+  touch ~/.pgpass
+  chmod 0600 ~/.pgpass
+  sed -i '' "/$url/d" ~/.pgpass
+  rdsToken=$(aws rds generate-db-auth-token --region ca-central-1 --hostname "$url" --port 5432 --username "$email" | sed 's|:|\\:|g')
+  echo "$url:5432:*:$email:$rdsToken" >>~/.pgpass
+
+}
+
+main "$@"
